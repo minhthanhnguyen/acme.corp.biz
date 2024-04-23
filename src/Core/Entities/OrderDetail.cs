@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace Core.Entities
 {
@@ -7,20 +8,26 @@ namespace Core.Entities
     {
         [Key]
         [Column(Order = 0)]
+        [JsonPropertyName("orderId")]
         public int OrderId { get; set; }
 
         [Key]
         [Column(Order = 1)]
+        [JsonPropertyName("productId")]
         public int ProductId { get; set; }
 
         [Required]
+        [JsonPropertyName("quantity")]
         public int Quantity { get; set; }
 
+        [JsonPropertyName("order")]
         public Order Order { get; set; } = null!;
 
+        [JsonPropertyName("product")]
         public Product Product { get; set; } = null!;
 
         [NotMapped]
+        [JsonPropertyName("id")]
         public OrderDetailKey Id 
         { 
             get 

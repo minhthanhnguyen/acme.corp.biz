@@ -1,9 +1,13 @@
-﻿namespace Core.Entities
+﻿using System.Text.Json.Serialization;
+
+namespace Core.Entities
 {
     public class OrderDetailKey : IComparable, IEquatable<OrderDetailKey>
     {
+        [JsonPropertyName("orderId")]
         public int OrderId { get; set; }
 
+        [JsonPropertyName("productId")]
         public int ProductId { get; set; }
 
         public int CompareTo(object? obj)

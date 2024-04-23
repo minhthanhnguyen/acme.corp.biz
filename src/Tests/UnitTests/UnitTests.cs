@@ -7,10 +7,10 @@ using Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Tests
+namespace Tests.UnitTests
 {
     [TestClass]
-    public class UnitTest1
+    public class UnitTests
     {
         private ServiceProvider _serviceProvider;
 
@@ -62,9 +62,9 @@ namespace Tests
                 await bizService.CreateCustomerAsync(createCustomerRequest);
 
                 // Assert
-                Customer? addedCustomer = await dbContext.Customers.Where<Customer?>(x => x.FirstName == createCustomerRequest.FirstName && 
+                Customer? addedCustomer = await dbContext.Customers.Where(x => x.FirstName == createCustomerRequest.FirstName &&
                                                                                           x.LastName == createCustomerRequest.LastName &&
-                                                                                          x.Email == createCustomerRequest.Email).FirstOrDefaultAsync();  
+                                                                                          x.Email == createCustomerRequest.Email).FirstOrDefaultAsync();
 
                 Assert.IsNotNull(addedCustomer);
                 Assert.AreEqual(addedCustomer.FirstName, createCustomerRequest.FirstName);
@@ -94,7 +94,7 @@ namespace Tests
                 await bizService.CreateProductAsync(createProductRequest);
 
                 // Assert
-                Product? addedProduct = await dbContext.Products.Where<Product?>(x => x.Name == createProductRequest.Name &&
+                Product? addedProduct = await dbContext.Products.Where(x => x.Name == createProductRequest.Name &&
                                                                                       x.UnitPrice == createProductRequest.UnitPrice &&
                                                                                       x.UnitsInStock == createProductRequest.UnitsInStock).FirstOrDefaultAsync();
 
@@ -126,7 +126,7 @@ namespace Tests
                 await bizService.CreateCustomerAsync(createCustomerRequest);
 
                 // Assert
-                Customer? addedCustomer = await dbContext.Customers.Where<Customer?>(x => x.FirstName == createCustomerRequest.FirstName &&
+                Customer? addedCustomer = await dbContext.Customers.Where(x => x.FirstName == createCustomerRequest.FirstName &&
                                                                                           x.LastName == createCustomerRequest.LastName &&
                                                                                           x.Email == createCustomerRequest.Email).FirstOrDefaultAsync();
 
@@ -146,7 +146,7 @@ namespace Tests
                 await bizService.CreateProductAsync(createProductRequest);
 
                 // Assert
-                Product? addedProduct = await dbContext.Products.Where<Product?>(x => x.Name == createProductRequest.Name &&
+                Product? addedProduct = await dbContext.Products.Where(x => x.Name == createProductRequest.Name &&
                                                                                       x.UnitPrice == createProductRequest.UnitPrice &&
                                                                                       x.UnitsInStock == createProductRequest.UnitsInStock).FirstOrDefaultAsync();
 
