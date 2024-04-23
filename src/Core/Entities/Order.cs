@@ -17,8 +17,5 @@ namespace Core.Entities
 
         [NotMapped]
         public List<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
-
-        //public List<OrderDetail> OrderDetails { get; } = [];
-        //public List<Product> Products { get; } = [];
     }
 }

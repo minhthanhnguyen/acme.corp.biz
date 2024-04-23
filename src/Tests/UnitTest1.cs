@@ -104,5 +104,77 @@ namespace Tests
                 Assert.AreEqual(addedProduct.UnitsInStock, createProductRequest.UnitsInStock);
             }
         }
+
+        [TestMethod]
+        public async Task AddOrder_Should_AddOrder()
+        {
+            // Arrange
+            using (var scope = _serviceProvider.CreateScope())
+            {
+                var scopedServices = scope.ServiceProvider;
+                IAcmeCorpBizService bizService = scopedServices.GetRequiredService<IAcmeCorpBizService>();
+                AcmeCorpBizDbContext dbContext = scopedServices.GetRequiredService<AcmeCorpBizDbContext>();
+
+                var createCustomerRequest = new CreateCustomerRequest
+                {
+                    FirstName = "Minh",
+                    LastName = "Nguyen",
+                    Email = "minh@test.com",
+                };
+
+                // Act
+                await bizService.CreateCustomerAsync(createCustomerRequest);
+
+                // Assert
+                Customer? addedCustomer = await dbContext.Customers.Where<Customer?>(x => x.FirstName == createCustomerRequest.FirstName &&
+                                                                                          x.LastName == createCustomerRequest.LastName &&
+                                                                                          x.Email == createCustomerRequest.Email).FirstOrDefaultAsync();
+
+                Assert.IsNotNull(addedCustomer);
+                Assert.AreEqual(addedCustomer.FirstName, createCustomerRequest.FirstName);
+                Assert.AreEqual(addedCustomer.LastName, createCustomerRequest.LastName);
+                Assert.AreEqual(addedCustomer.Email, createCustomerRequest.Email);
+
+                var createProductRequest = new CreateProductRequest
+                {
+                    Name = "Test Product",
+                    UnitPrice = 100m,
+                    UnitsInStock = 100,
+                };
+
+                // Act
+                await bizService.CreateProductAsync(createProductRequest);
+
+                // Assert
+                Product? addedProduct = await dbContext.Products.Where<Product?>(x => x.Name == createProductRequest.Name &&
+                                                                                      x.UnitPrice == createProductRequest.UnitPrice &&
+                                                                                      x.UnitsInStock == createProductRequest.UnitsInStock).FirstOrDefaultAsync();
+
+                Assert.IsNotNull(addedProduct);
+                Assert.AreEqual(addedProduct.Name, createProductRequest.Name);
+                Assert.AreEqual(addedProduct.UnitPrice, createProductRequest.UnitPrice);
+                Assert.AreEqual(addedProduct.UnitsInStock, createProductRequest.UnitsInStock);
+
+                var createOrderRequest = new CreateOrderRequest
+                {
+                    CustomerId = addedCustomer.Id,
+                    OrderLines = new List<OrderLineRequest>
+                    {
+                        new OrderLineRequest
+                        {
+                            ProductId = addedProduct.Id,
+                            Quantity = 1
+                        }
+                    }
+                };
+
+                int orderId = await bizService.CreateOrderAsync(createOrderRequest);
+
+                Order? order = await bizService.GetOrderAsync(new GetEntityByIdRequest { Id = orderId });
+                Assert.IsNotNull(order);
+                Assert.AreEqual(createOrderRequest.OrderLines.Count, order.OrderDetails.Count);
+                Assert.AreEqual(createOrderRequest.OrderLines[0].ProductId, order.OrderDetails[0].ProductId);
+            }
+        }
     }
 }

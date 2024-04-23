@@ -15,8 +15,5 @@ namespace Core.Entities
 
         [Required]
         public short UnitsInStock { get; set; }
-
-        //public List<OrderDetail> OrderDetails { get; } = [];
-        //public List<Order> Orders { get; } = [];
     }
 }
