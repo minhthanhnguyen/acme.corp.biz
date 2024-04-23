@@ -45,11 +45,20 @@ namespace Infrastructure.Repositories
             return condition != null ? DbSet.Where(condition).AsAsyncEnumerable() : DbSet.AsAsyncEnumerable();
         }
 
-        public async Task AddAsync(TEntity entity)
+        public async Task<T> AddAsync(TEntity entity)
         {
             ArgumentNullException.ThrowIfNull(entity);
             await DbSet.AddAsync(entity);
             await Context.SaveChangesAsync();
+
+            return entity.Id;
+        }
+
+        public async Task AddRangeAsync(IEnumerable<TEntity> entities)
+        {
+            ArgumentNullException.ThrowIfNull(entities);
+            await DbSet.AddRangeAsync(entities);
+            await Context.SaveChangesAsync();           
         }
 
         public async Task UpdateAsync(TEntity entity)

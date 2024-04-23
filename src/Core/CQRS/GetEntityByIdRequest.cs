@@ -1,6 +1,6 @@
 ﻿namespace Core.CQRS
 {
-    public class GetCustomerRequest
+    public class GetEntityByIdRequest
     {
         public int Id { get; set; }
     }

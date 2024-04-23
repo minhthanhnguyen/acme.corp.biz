@@ -5,8 +5,16 @@ namespace Infrastructure.Services
 {
     public interface IAcmeCorpBizService
     {
-        Task<Customer> GetCustomerAsync(GetCustomerRequest getCustomerRequest);
+        Task<Customer?> GetCustomerAsync(GetEntityByIdRequest getCustomerRequest);
 
-        Task CreateCustomerAsync(CreateCustomerRequest createCustomerRequest);
+        Task<int> CreateCustomerAsync(CreateCustomerRequest createCustomerRequest);
+
+        Task<Product?> GetProductAsync(GetEntityByIdRequest getProductRequest);
+
+        Task<int> CreateProductAsync(CreateProductRequest createProductRequest);
+
+        Task<Order?> GetOrderAsync(GetEntityByIdRequest getOrderRequest);
+
+        Task<int> CreateOrderAsync(CreateOrderRequest createOrderRequest);
     }
 }

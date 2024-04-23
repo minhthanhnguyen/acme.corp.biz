@@ -21,15 +21,15 @@ namespace WebApi.Controllers
         [HttpPost("create")]
         public async Task<ActionResult> Create([FromBody] CreateCustomerRequest createCustomerRequest)
         {
-            await _acmeCorpBizService.CreateCustomerAsync(createCustomerRequest);
+            int customerId = await _acmeCorpBizService.CreateCustomerAsync(createCustomerRequest);
 
-            return Ok();
+            return Created();
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<Customer>> Get(int id)
         {
-            Customer customer = await _acmeCorpBizService.GetCustomerAsync(new GetCustomerRequest { Id = id });
+            Customer? customer = await _acmeCorpBizService.GetCustomerAsync(new GetEntityByIdRequest { Id = id });
 
             if (customer == null)
             {

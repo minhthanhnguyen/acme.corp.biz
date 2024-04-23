@@ -13,7 +13,9 @@ namespace Core.Repositories
 
         IAsyncEnumerable<TEntity> Fetch(Expression<Func<TEntity, bool>>? condition = null);
 
-        Task AddAsync(TEntity entity);
+        Task<T> AddAsync(TEntity entity);
+
+        Task AddRangeAsync(IEnumerable<TEntity> entity);
 
         Task UpdateAsync(TEntity entity);
 
